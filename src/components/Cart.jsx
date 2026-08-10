@@ -1,14 +1,20 @@
-import React from 'react'
+import React from 'react';
 
-const Cart = () => {
+function Cart({ cart = [] }) {
   return (
-    <div>
+    <div className="cart">
       <h2>Shopping Cart</h2>
-      <ul>
-        {/* TODO: Include items here in li tags with text 'ITEM.NAME is in your cart.' */}
-      </ul>
+      {cart.length === 0 ? (
+        <p>Your cart is empty.</p>
+      ) : (
+        <ul>
+          {cart.map((item) => (
+            <li key={item.id}>{item.name} is in your cart.</li>
+          ))}
+        </ul>
+      )}
     </div>
-  )
+  );
 }
 
-export default Cart
+export default Cart;

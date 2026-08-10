@@ -1,23 +1,38 @@
-import React from 'react'
-import ProductCard from './ProductCard'
+import React from 'react';
+import ProductCard from './ProductCard';
 
-// Sample product data (for display purposes only)
-export const sampleProducts = [
-  { id: 1, name: 'Apple', price: '$1.00', category: 'Fruits', inStock: true },
-  { id: 2, name: 'Milk', price: '$2.50', category: 'Dairy', inStock: false }
-]
+// Sample product dataset if not provided directly via props
+const DEFAULT_PRODUCTS = [
+  { id: 1, name: 'Apple', category: 'Fruits', price: 1.0 },
+  { id: 2, name: 'Banana', category: 'Fruits', price: 0.5 },
+  { id: 3, name: 'Milk', category: 'Dairy', price: 2.5 },
+  { id: 4, name: 'Cheese', category: 'Dairy', price: 3.0 },
+];
 
-const ProductList = () => {
+function ProductList({ products = DEFAULT_PRODUCTS, selectedCategory, onAddToCart, cart = [] }) {
+  // Filter products by selectedCategory (handles 'all' case-insensitively)
+  const filteredProducts = products.filter((product) => {
+    if (!selectedCategory || selectedCategory.toLowerCase() === 'all') {
+      return true;
+    }
+    return product.category.toLowerCase() === selectedCategory.toLowerCase();
+  });
+
   return (
-    <div>
-      <h2>Available Products</h2>
-
-      {/* TODO: Filter sample data using selected category */}
-      {sampleProducts.map((product) => (
-        <ProductCard key={product.id} product={product} />
-      ))}
+    <div className="product-list">
+      {filteredProducts.map((product) => {
+        const isInCart = cart.some((item) => item.id === product.id);
+        return (
+          <ProductCard
+            key={product.id}
+            product={product}
+            onAddToCart={onAddToCart}
+            isInCart={isInCart}
+          />
+        );
+      })}
     </div>
-  )
+  );
 }
 
-export default ProductList
+export default ProductList;

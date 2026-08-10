@@ -40,3 +40,28 @@
 .read-the-docs {
   color: #888;
 }
+/* Base container styling */
+.app-container {
+  min-height: 100vh;
+  padding: 20px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Light Mode Styles */
+.light-mode {
+  background-color: #ffffff;
+  color: #212529;
+}
+
+/* Dark Mode Styles */
+.dark-mode {
+  background-color: #121212;
+  color: #f8f9fa;
+}
+
+.dark-mode .product-card,
+.dark-mode select {
+  background-color: #1e1e1e;
+  color: #ffffff;
+  border-color: #444;
+}
