@@ -31,6 +31,11 @@ const App = () => {
     })
   }
 
+  // Handler to remove an item from cart state
+  const handleRemoveFromCart = (productId) => {
+    setCart((prevCart) => prevCart.filter((item) => item.id !== productId))
+  }
+
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value)
   }
@@ -59,6 +64,7 @@ const App = () => {
           <option value="all">All</option>
           <option value="Fruits">Fruits</option>
           <option value="Dairy">Dairy</option>
+          <option value="Bakery">Bakery</option>
         </select>
       </div>
 
@@ -66,10 +72,11 @@ const App = () => {
         products={PRODUCTS}
         selectedCategory={selectedCategory}
         onAddToCart={handleAddToCart}
+        onRemoveFromCart={handleRemoveFromCart}
         cart={cart}
       />
 
-      <Cart cart={cart} />
+      <Cart cart={cart} onRemoveFromCart={handleRemoveFromCart} />
     </div>
   )
 }

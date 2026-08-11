@@ -12,6 +12,7 @@ function ProductList({
   products = DEFAULT_PRODUCTS,
   selectedCategory = 'all',
   onAddToCart,
+  onRemoveFromCart,
   cart = [],
 }) {
   const safeProducts = Array.isArray(products) ? products : DEFAULT_PRODUCTS
@@ -43,6 +44,7 @@ function ProductList({
               key={product.id || product.name}
               product={product}
               onAddToCart={onAddToCart}
+              onRemoveFromCart={onRemoveFromCart}
               isInCart={isInCart}
             />
           )

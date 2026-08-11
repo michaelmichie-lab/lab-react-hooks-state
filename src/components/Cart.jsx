@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Cart({ cart = [] }) {
+function Cart({ cart = [], onRemoveFromCart }) {
   return (
     <div className="cart">
       <h2>Shopping Cart</h2>
@@ -9,7 +9,16 @@ function Cart({ cart = [] }) {
       ) : (
         <ul>
           {cart.map((item) => (
-            <li key={item.id || item.name}>{item.name} is in your cart.</li>
+            <li key={item.id || item.name} style={{ marginBottom: '8px' }}>
+              {item.name} is in your cart.{' '}
+              <button
+                type="button"
+                onClick={() => onRemoveFromCart(item.id)}
+                style={{ marginLeft: '10px' }}
+              >
+                Remove
+              </button>
+            </li>
           ))}
         </ul>
       )}
