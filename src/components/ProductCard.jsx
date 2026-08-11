@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function ProductCard({ product, onAddToCart, isInCart }) {
   return (
@@ -10,10 +10,12 @@ function ProductCard({ product, onAddToCart, isInCart }) {
       {isInCart ? (
         <p>{product.name} is in your cart.</p>
       ) : (
-        <button onClick={() => onAddToCart(product)}>Add to Cart</button>
+        <button type="button" onClick={() => onAddToCart(product)}>
+          Add to Cart
+        </button>
       )}
     </div>
-  );
+  )
 }
 
-export default ProductCard;
+export default ProductCard

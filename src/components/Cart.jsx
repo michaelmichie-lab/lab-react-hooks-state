@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 function Cart({ cart = [] }) {
   return (
@@ -9,12 +9,12 @@ function Cart({ cart = [] }) {
       ) : (
         <ul>
           {cart.map((item) => (
-            <li key={item.id}>{item.name} is in your cart.</li>
+            <li key={item.id || item.name}>{item.name} is in your cart.</li>
           ))}
         </ul>
       )}
     </div>
-  );
+  )
 }
 
-export default Cart;
+export default Cart

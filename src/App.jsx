@@ -4,29 +4,33 @@ import DarkModeToggle from './components/DarkModeToggle'
 import Cart from './components/Cart'
 import './App.css'
 
+const PRODUCTS = [
+  { id: 1, name: 'Apple', category: 'Fruits', price: 1.0 },
+  { id: 2, name: 'Banana', category: 'Fruits', price: 0.5 },
+  { id: 3, name: 'Milk', category: 'Dairy', price: 2.5 },
+  { id: 4, name: 'Cheese', category: 'Dairy', price: 3.0 },
+]
+
 const App = () => {
-  // State for dark mode toggle
   const [isDarkMode, setIsDarkMode] = useState(false)
-
-  // State for cart management
   const [cart, setCart] = useState([])
-
-  // State for category filtering
   const [selectedCategory, setSelectedCategory] = useState('all')
 
-  // Handler to toggle dark mode
   const handleToggleDarkMode = () => {
-    setIsDarkMode((prevMode) => !prevMode)
+    setIsDarkMode((prev) => !prev)
   }
 
-  // Handler to add an item to the cart
   const handleAddToCart = (product) => {
-    if (!cart.some((item) => item.id === product.id)) {
-      setCart((prevCart) => [...prevCart, product])
-    }
+    if (!product) return
+    setCart((prevCart) => {
+      const exists = prevCart.some(
+        (item) => item && (item.id === product.id || item.name === product.name)
+      )
+      if (exists) return prevCart
+      return [...prevCart, product]
+    })
   }
 
-  // Handler to change the category filter
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value)
   }
@@ -39,13 +43,12 @@ const App = () => {
         mode.
       </p>
 
-      {/* Dark Mode Toggle Button Component */}
       <DarkModeToggle
         isDarkMode={isDarkMode}
+        darkMode={isDarkMode}
         onToggleDarkMode={handleToggleDarkMode}
       />
 
-      {/* Category Filter Dropdown */}
       <div style={{ margin: '15px 0' }}>
         <label htmlFor="category-select">Filter by Category: </label>
         <select
@@ -59,14 +62,13 @@ const App = () => {
         </select>
       </div>
 
-      {/* Product List Component */}
       <ProductList
+        products={PRODUCTS}
         selectedCategory={selectedCategory}
         onAddToCart={handleAddToCart}
         cart={cart}
       />
 
-      {/* Shopping Cart Component */}
       <Cart cart={cart} />
     </div>
   )
