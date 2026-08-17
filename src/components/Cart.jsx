@@ -1,29 +1,25 @@
-import React from 'react'
+import React from "react";
 
-function Cart({ cart = [], onRemoveFromCart }) {
+// Renders the current cart contents. Purely presentational — cart
+// state itself lives in App and is passed down as cartItems.
+function Cart({ cartItems }) {
   return (
-    <div className="cart">
+    <section className="cart">
       <h2>Shopping Cart</h2>
-      {cart.length === 0 ? (
+      {cartItems.length === 0 ? (
         <p>Your cart is empty.</p>
       ) : (
         <ul>
-          {cart.map((item) => (
-            <li key={item.id || item.name} style={{ marginBottom: '8px' }}>
-              {item.name} is in your cart.{' '}
-              <button
-                type="button"
-                onClick={() => onRemoveFromCart(item.id)}
-                style={{ marginLeft: '10px' }}
-              >
-                Remove
-              </button>
-            </li>
+          {cartItems.map((item, index) => (
+            // Using index in the key here (rather than item.id) since
+            // the same product can be added more than once, which
+            // would otherwise create duplicate keys.
+            <li key={`${item.id}-${index}`}>{item.name} is in your cart.</li>
           ))}
         </ul>
       )}
-    </div>
-  )
+    </section>
+  );
 }
 
-export default Cart
+export default Cart;

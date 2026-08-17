@@ -1,84 +1,47 @@
-import React, { useState } from 'react'
-import ProductList from './components/ProductList'
-import DarkModeToggle from './components/DarkModeToggle'
-import Cart from './components/Cart'
-import './App.css'
+import React, { useState } from "react";
+import DarkModeToggle from "./components/DarkModeToggle";
+import ProductList, { sampleProducts } from "./components/ProductList";
+import Cart from "./components/Cart";
+import "./App.css";
 
-const PRODUCTS = [
-  { id: 1, name: 'Apple', category: 'Fruits', price: 1.0 },
-  { id: 2, name: 'Banana', category: 'Fruits', price: 0.5 },
-  { id: 3, name: 'Milk', category: 'Dairy', price: 2.5 },
-  { id: 4, name: 'Cheese', category: 'Dairy', price: 3.0 },
-]
+function App() {
+  // darkMode: drives the toggle button's label and (optionally) a
+  // CSS class on the root wrapper for light/dark styling.
+  const [darkMode, setDarkMode] = useState(false);
 
-const App = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false)
-  const [cart, setCart] = useState([])
-  const [selectedCategory, setSelectedCategory] = useState('all')
+  // cart: a running list of products the user has clicked
+  // "Add to Cart" on. Owned here so both ProductList (which adds)
+  // and Cart (which displays) can share it.
+  const [cart, setCart] = useState([]);
 
-  const handleToggleDarkMode = () => {
-    setIsDarkMode((prev) => !prev)
-  }
+  // category: which category the ProductList dropdown is currently
+  // filtering by. "All" shows every product.
+  const [category, setCategory] = useState("All");
 
   const handleAddToCart = (product) => {
-    if (!product) return
-    setCart((prevCart) => {
-      const exists = prevCart.some(
-        (item) => item && (item.id === product.id || item.name === product.name)
-      )
-      if (exists) return prevCart
-      return [...prevCart, product]
-    })
-  }
+    setCart((prevCart) => [...prevCart, product]);
+  };
 
-  // Handler to remove an item from cart state
-  const handleRemoveFromCart = (productId) => {
-    setCart((prevCart) => prevCart.filter((item) => item.id !== productId))
-  }
-
-  const handleCategoryChange = (e) => {
-    setSelectedCategory(e.target.value)
-  }
+  // Derived value — filtered on every render from sampleProducts +
+  // category, rather than stored separately in state.
+  const filteredProducts =
+    category === "All"
+      ? sampleProducts
+      : sampleProducts.filter((product) => product.category === category);
 
   return (
-    <div className={`app-container ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
-      <h1>🛒 Shopping App</h1>
-      <p>
-        Welcome! Your task is to implement filtering, cart management, and dark
-        mode.
-      </p>
-
-      <DarkModeToggle
-        isDarkMode={isDarkMode}
-        darkMode={isDarkMode}
-        onToggleDarkMode={handleToggleDarkMode}
-      />
-
-      <div style={{ margin: '15px 0' }}>
-        <label htmlFor="category-select">Filter by Category: </label>
-        <select
-          id="category-select"
-          value={selectedCategory}
-          onChange={handleCategoryChange}
-        >
-          <option value="all">All</option>
-          <option value="Fruits">Fruits</option>
-          <option value="Dairy">Dairy</option>
-          <option value="Bakery">Bakery</option>
-        </select>
-      </div>
-
+    <div className={darkMode ? "app dark-mode" : "app light-mode"}>
+      <h1>Grocery Shopping App</h1>
+      <DarkModeToggle darkMode={darkMode} setDarkMode={setDarkMode} />
       <ProductList
-        products={PRODUCTS}
-        selectedCategory={selectedCategory}
+        products={filteredProducts}
+        category={category}
+        onCategoryChange={setCategory}
         onAddToCart={handleAddToCart}
-        onRemoveFromCart={handleRemoveFromCart}
-        cart={cart}
       />
-
-      <Cart cart={cart} onRemoveFromCart={handleRemoveFromCart} />
+      <Cart cartItems={cart} />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
